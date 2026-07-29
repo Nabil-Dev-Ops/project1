@@ -1,9 +1,319 @@
 <!DOCTYPE html>
-<html>
+<html lang="ms">
 <head>
-    <title>Project 1 - Homelab</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 1 | Nabil's Interactive Lab</title>
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --primary: #00f2fe;
+      --secondary: #4facfe;
+      --accent: #ff007f;
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Interactive Background Particles */
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Main Container with Glassmorphism */
+    .container {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      animation: floatIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Badge Header */
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(0, 242, 254, 0.15);
+      color: var(--primary);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #a0aec0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* Interactive Live Counter Display */
+    .counter-box {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .counter-val {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+    }
+
+    /* Buttons Group */
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      position: relative;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      outline: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: #000;
+      box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(79, 172, 254, 0.5);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #ff007f, #7928ca);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(255, 0, 127, 0.3);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(255, 0, 127, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Ripple Effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Animations Keyframes */
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 242, 254, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+    }
+
+    @keyframes ripple {
+      to { transform: scale(4); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello World! CI/CD Pipeline Homelab Saya Dah BERJAYA </h1>
+
+  <canvas id="canvas"></canvas>
+
+  <div class="container">
+    <div class="badge">🚀 CI/CD DEPLOYED</div>
+    <h1>Nabil's Lab</h1>
+    <p>Selamat datang ke web interactive! Tekan butang di bawah untuk lihat efek animasi & counter live.</p>
+
+    <div class="counter-box">
+      <div style="font-size: 0.85rem; color: #888; margin-bottom: 5px;">LIVE INTERACTIVE SCORE</div>
+      <div class="counter-val" id="counter">0</div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="addScore(event)">Boost +10 🔥</button>
+      <button class="btn btn-accent" onclick="changeTheme(event)">Magic Colors ✨</button>
+      <button class="btn btn-secondary" onclick="resetScore(event)">Reset 🔄</button>
+    </div>
+  </div>
+
+  <script>
+    // Particle Background Effect
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+        this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        if (this.y < 0) this.y = canvas.height;
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      particles = [];
+      for (let i = 0; i < 70; i++) {
+        particles.push(new Particle());
+      }
+    }
+    init();
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Interactive Button Logic
+    let score = 0;
+    const counterEl = document.getElementById('counter');
+
+    function addScore(e) {
+      createRipple(e);
+      score += 10;
+      counterEl.innerText = score;
+      counterEl.style.transform = 'scale(1.3)';
+      setTimeout(() => counterEl.style.transform = 'scale(1)', 150);
+    }
+
+    function resetScore(e) {
+      createRipple(e);
+      score = 0;
+      counterEl.innerText = score;
+    }
+
+    function changeTheme(e) {
+      createRipple(e);
+      const randomHue = Math.floor(Math.random() * 360);
+      document.documentElement.style.setProperty('--primary', `hsl(${randomHue}, 100%, 50%)`);
+      document.documentElement.style.setProperty('--accent', `hsl(${(randomHue + 120) % 360}, 100%, 50%)`);
+    }
+
+    // Ripple Effect on Click
+    function createRipple(event) {
+      const button = event.currentTarget;
+      const circle = document.createElement("span");
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+      circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+      circle.classList.add("ripple");
+
+      const ripple = button.getElementsByClassName("ripple")[0];
+      if (ripple) {
+        ripple.remove();
+      }
+
+      button.appendChild(circle);
+    }
+  </script>
 </body>
 </html>
