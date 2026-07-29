@@ -6,7 +6,7 @@ const port = 80;
 
 // Konfigurasi Sambungan ke Database PostgreSQL
 const pool = new Pool({
-  host: process.env.DB_HOST || 'db',
+  host: process.env.DB_HOST || 'project1-db',
   user: process.env.DB_USER || 'nabil_user',
   password: process.env.DB_PASSWORD || 'secretpassword123',
   database: process.env.DB_NAME || 'homelab_db',
