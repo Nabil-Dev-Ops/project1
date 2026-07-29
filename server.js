@@ -5,10 +5,10 @@ const app = express();
 const port = process.env.PORT || 80;
 
 // Serve fail-fail statik
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'view')));
 
 app.get('/', (req, res) => {
-    const indexPath = path.join(__dirname, 'index.html');
+    const indexPath = path.join(__dirname, 'view', 'index.html');
     
     // Semak jika index.html wujud
     if (fs.existsSync(indexPath)) {
