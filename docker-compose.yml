@@ -26,6 +26,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  # Servis 3: pgAdmin untuk pengurusan database
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: project1-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@nabil.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword123
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
 # Simpan data database supaya tak hilang bila container restart
 volumes:
   postgres_data:
