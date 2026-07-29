@@ -32,8 +32,8 @@ services:
     container_name: project1-pgadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@nabil.com
-      PGADMIN_DEFAULT_PASSWORD: adminpassword123
+      PGADMIN_DEFAULT_EMAIL: nmuhd1444@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: nabil@12turbo
     ports:
       - "5050:80"
     volumes:
