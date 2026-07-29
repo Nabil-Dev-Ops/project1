@@ -33,7 +33,7 @@ services:
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: nmuhd1444@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: nabil@12turbo
+      PGADMIN_DEFAULT_PASSWORD: secretpassword123
     ports:
       - "5050:80"
     volumes:
