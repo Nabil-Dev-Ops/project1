@@ -1,0 +1,31 @@
+services:
+  # Servis 1: Web App Korang
+  web:
+    build: .
+    container_name: project1-app
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_USER=nabil_user
+      - DB_PASSWORD=secretpassword123
+      - DB_NAME=homelab_db
+    depends_on:
+      - db
+
+  # Servis 2: Database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: project1-db
+    restart: always
+    environment:
+      POSTGRES_USER: nabil_user
+      POSTGRES_PASSWORD: secretpassword123
+      POSTGRES_DB: homelab_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Simpan data database supaya tak hilang bila container restart
+volumes:
+  postgres_data:
