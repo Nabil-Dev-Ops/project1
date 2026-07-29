@@ -42,3 +42,4 @@ services:
 # Simpan data database supaya tak hilang bila container restart
 volumes:
   postgres_data:
+  pgadmin_data:
