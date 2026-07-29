@@ -1,21 +1,17 @@
-name: Deploy to Homelab Server
+name: CI/CD Pipeline Homelab
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy Docker Container
+      - name: Deploy App using Docker Compose
         run: |
-          docker build -t project1-app .
-          docker stop prod-web || true
-          docker rm prod-web || true
-          docker run -d -p 8080:80 --name prod-web project1-app
+          docker compose up -d --build
