@@ -16,38 +16,23 @@ Projek pertama untuk latihan amali DevOps Homelab. Projek ini menunjukkan kitara
 ## 🚀 Cara Menjalankan Projek (Local Development)
 
 ### 1. Bina Image
-```bash
-podman build -t project1-app .
-# atau jika menggunakan Docker:
-# docker build -t project1-app .
+`podman build -t project1-app .`
 
-2. Jalankan Container
-Bash
+*(Atau jika menggunakan Docker: `docker build -t project1-app .`)*
 
-podman run -d -p 8080:80 --name test-web project1-app
+### 2. Jalankan Container
+`podman run -d -p 8080:80 --name test-web project1-app`
 
-3. Akses Aplikasi
-
-Buka pelayar web (browser) dan layari:
+### 3. Akses Aplikasi
+Buka pelayar web (*browser*) dan layari:
 http://localhost:8080
-📌 Aliran DevOps (Workflow)
-
-    Tulis kod web asas (index.html).
-
-    Sediakan pembungkusan kontena (Dockerfile).
-
-    Uji penjejalan kontena secara tempatan di laptop Fedora.
-
-    Push kod ke repository GitHub.
-
-    Deploy bekas kontena ke laptop Server Ubuntu.
-
 
 ---
 
-Bila dah *paste* dan *save* (`Ctrl + S`), jangan lupa jalankan arahan ni di terminal untuk *push* ke GitHub:
+## 📌 Aliran DevOps (Workflow)
 
-```bash
-git add README.md
-git commit -m "docs: add README file"
-git push origin main
+1. Tulis kod web asas (`index.html`).
+2. Sediakan pembungkusan kontena (`Dockerfile`).
+3. Uji penjejalan kontena secara tempatan di laptop Fedora.
+4. Push kod ke repository GitHub.
+5. Deploy bekas kontena ke laptop Server Ubuntu.
