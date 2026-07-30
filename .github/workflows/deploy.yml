@@ -7,14 +7,16 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # JOB 1: Security Scan & Linting
+  # ==========================================
+  # JOB 1: Security Scan & Linting (CI)
+  # ==========================================
   security-and-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Validate Dockerfile Syntax
+      - name: Validate Dockerfile Syntax (Hadolint)
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
@@ -28,31 +30,29 @@ jobs:
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
- # JOB 2: Real Auto-Deploy ke Ubuntu Server
+  # ==========================================
+  # JOB 2: Real Auto-Deploy Direct On Server (CD)
+  # ==========================================
   deploy:
     needs: security-and-lint
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # <--- Guna Self-Hosted Runner 'nabil-server' korang!
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
-      - name: SSH & Deploy ke Server Ubuntu
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: 22
-          script: |
-            set -e
-            if [ -d "$HOME/project1" ]; then
-              cd "$HOME/project1"
-            elif [ -d "$HOME/devops/project1" ]; then
-              cd "$HOME/devops/project1"
-            else
-              echo "Folder projek tidak dijumpai!" && exit 1
-            fi
-            
-            git fetch --all
-            git reset --hard origin/main
-            docker compose up -d --build
-            docker image prune -f
-            
+      - name: Checkout Code Direct On Server
+        uses: actions/checkout@v4
+
+      - name: Deploy Docker Compose
+        run: |
+          set -e
+          if [ -d "$HOME/project1" ]; then
+            cd "$HOME/project1"
+          elif [ -d "$HOME/devops/project1" ]; then
+            cd "$HOME/devops/project1"
+          else
+            echo "Folder projek tidak dijumpai!" && exit 1
+          fi
+          
+          git fetch --all
+          git reset --hard origin/main
+          docker compose up -d --build
+          docker image prune -f
