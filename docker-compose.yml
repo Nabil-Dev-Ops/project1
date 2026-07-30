@@ -39,19 +39,7 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
-  # Servis 4: Portainer Docker Management
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: project1-portainer
-    restart: always
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-
 # Simpan data database & portainer supaya tak hilang bila container restart
 volumes:
   postgres_data:
   pgadmin_data:
-  portainer_data:
