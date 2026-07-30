@@ -39,7 +39,18 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
+    # Servis sedia ada korang (project1, postgres, pgadmin, etc.)...
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime-kuma-data:/app/data
+
 # Simpan data database & portainer supaya tak hilang bila container restart
 volumes:
   postgres_data:
   pgadmin_data:
+  uptime-kuma-data:
