@@ -28,22 +28,22 @@ jobs:
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
-  # JOB 2: Build & Deploy Test
+ # JOB 2: Real Auto-Deploy ke Ubuntu Server
   deploy:
     needs: security-and-lint
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker Image (Dry-Run Test)
-        uses: docker/build-push-action@v5
+      - name: SSH & Deploy ke Server Ubuntu
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: nabil-devops/project1:latest
-          
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script: |
+            cd project1
+            git fetch --all
+            git reset --hard origin/main
+            docker compose up -d --build
+            docker image prune -f
