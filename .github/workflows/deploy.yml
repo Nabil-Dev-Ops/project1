@@ -46,3 +46,4 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: nabil-devops/project1:latest
+          
