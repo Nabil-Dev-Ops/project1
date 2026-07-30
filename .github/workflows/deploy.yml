@@ -1,17 +1,48 @@
-name: CI/CD Pipeline Homelab
+name: DevOps CI/CD & Security Pipeline
 
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  deploy:
-    runs-on: self-hosted
-
+  # JOB 1: Security Scan & Linting
+  security-and-lint:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy App using Docker Compose
-        run: |
-          docker compose up -d --build
+      - name: Validate Dockerfile Syntax
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+        continue-on-error: true
+
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+  # JOB 2: Build & Deploy Test
+  deploy:
+    needs: security-and-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image (Dry-Run Test)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: nabil-devops/project1:latest
