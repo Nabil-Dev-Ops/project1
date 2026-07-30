@@ -1,42 +1,41 @@
-let score = 0;
-const counterEl = document.getElementById('counter');
+let count = 100;
 
-function addScore(e) {
-  createRipple(e);
-  score += 10;
-  counterEl.innerText = score;
-  counterEl.style.transform = 'scale(1.3)';
-  setTimeout(() => counterEl.style.transform = 'scale(1)', 150);
+function addScore(event) {
+  count += 10;
+  document.getElementById("counter").innerText = count;
+  createSparkles(event.clientX, event.clientY);
+  appendTerminalLog(`Score boosted: +10 (Total: ${count})`);
 }
 
-function resetScore(e) {
-  createRipple(e);
-  score = 0;
-  counterEl.innerText = score;
+function resetScore(event) {
+  count = 0;
+  document.getElementById("counter").innerText = count;
+  appendTerminalLog(`Score reset to 0`);
 }
 
-function changeTheme(e) {
-  createRipple(e);
-  const randomHue = Math.floor(Math.random() * 360);
-  document.documentElement.style.setProperty('--primary', `hsl(${randomHue}, 100%, 50%)`);
-  document.documentElement.style.setProperty('--accent', `hsl(${(randomHue + 120) % 360}, 100%, 50%)`);
+function changeTheme(event) {
+  const colors = [
+    ['#00f2fe', '#4facfe'],
+    ['#7928ca', '#ff007f'],
+    ['#00dfa2', '#00b894'],
+    ['#ff9a9e', '#fecfef']
+  ];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  document.documentElement.style.setProperty('--accent-cyan', randomColor[0]);
+  appendTerminalLog(`Theme accent shifted to ${randomColor[0]}`);
 }
 
-function createRipple(event) {
-  const button = event.currentTarget;
-  const circle = document.createElement("span");
-  const diameter = Math.max(button.clientWidth, button.clientHeight);
-  const radius = diameter / 2;
-
-  circle.style.width = circle.style.height = `${diameter}px`;
-  circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
-  circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
-  circle.classList.add("ripple");
-
-  const ripple = button.getElementsByClassName("ripple")[0];
-  if (ripple) {
-    ripple.remove();
+function appendTerminalLog(message) {
+  const terminal = document.getElementById("terminal-body");
+  if (!terminal) return;
+  
+  const p = document.createElement("p");
+  p.innerHTML = `<span class="prompt">nabil@nabil-server:~$</span> ${message}`;
+  
+  const cursor = terminal.querySelector(".typing-cursor");
+  if (cursor && cursor.parentElement) {
+    terminal.insertBefore(p, cursor.parentElement);
+  } else {
+    terminal.appendChild(p);
   }
-
-  button.appendChild(circle);
 }
