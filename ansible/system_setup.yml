@@ -1,0 +1,25 @@
+---
+- name: Setup dan System Check Ubuntu Server
+  hosts: ubuntu_servers
+  become: true  # Membenarkan Ansible guna akses sudo/root kat server
+
+  tasks:
+    - name: Kemaskini cache apt (APT Update)
+      apt:
+        update_cache: yes
+
+    - name: Pastikan perisian asas sentiasa wujud (git, curl, htop)
+      apt:
+        name:
+          - git
+          - curl
+          - htop
+        state: present
+
+    - name: Semak Uptime Server
+      command: uptime
+      register: uptime_output
+
+    - name: Paparkan Uptime Server kat Terminal Fedora
+      debug:
+        msg: "Uptime Server korang ialah: {{ uptime_output.stdout }}"

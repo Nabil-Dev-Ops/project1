@@ -1,0 +1,21 @@
+---
+- name: Automate Docker Container Deployment
+  hosts: ubuntu_servers
+  become: true
+
+  tasks:
+    - name: Semak status Docker Service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Run atau Update Docker Compose Project
+      community.docker.docker_compose_v2:
+        project_src: /home/nabil/project1
+        state: present
+      register: output
+
+    - name: Paparkan Status Deployment
+      debug:
+        msg: "Deployment Status: {{ output }}"
