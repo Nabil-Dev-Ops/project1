@@ -1,51 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let uptimeSeconds = 31200;
+    const terminalBody = document.getElementById('terminal-body');
 
-    function formatUptime(secs) {
-        const h = Math.floor(secs / 3600);
-        const m = Math.floor((secs % 3600) / 60);
-        const s = secs % 60;
-        return `${h}h ${m}m ${s}s`;
-    }
-
-    // Live Streamer Log Terminal untuk Project 1 (CT100)
-    const terminal = document.getElementById('terminal-logs');
-    const simulatedLogs = [
-        () => `<div class="log-line">[CT100] CPU Usage: ${(Math.random() * 4 + 1.1).toFixed(1)}% | RAM: 1.05GB / 4.00GB</div>`,
-        () => `<div class="log-line log-green">[RUNNER] CT100 runner polling GitHub Actions jobs...</div>`,
-        () => `<div class="log-line">[DOCKER] project1-web stack status: RUNNING (Port 80)</div>`,
-        () => `<div class="log-line log-yellow">[SECURITY] Hadolint & Trivy scan result: PASSED</div>`,
-        () => `<div class="log-line">[CLOUDFLARE] Ingress route active: project1.nabil.homes</div>`
+    const liveLogs = [
+        () => `<p class="log">[SYS] CPU Usage: ${(Math.random() * 3 + 1.1).toFixed(1)}% | Memory: 1.15GB/4.00GB</p>`,
+        () => `<p class="log"><span class="active-text">[RUNNER]</span> Polling GitHub Actions pipeline jobs...</p>`,
+        () => `<p class="log">[DOCKER] Container project1-web state: HEALTHY</p>`,
+        () => `<p class="log">[SECURITY] Trivy vulnerability check: 0 CRITICAL</p>`
     ];
 
-    function appendLog() {
-        if (!terminal) return;
-        
-        const randomLog = simulatedLogs[Math.floor(Math.random() * simulatedLogs.length)]();
-        terminal.innerHTML += randomLog;
-        
-        // Auto scroll
-        terminal.scrollTop = terminal.scrollHeight;
-
-        // Hadkan max 15 baris
-        if (terminal.children.length > 15) {
-            terminal.removeChild(terminal.children[0]);
-        }
-    }
-
-    // Update automatik setiap 2 saat
     setInterval(() => {
-        uptimeSeconds++;
-        const uptimeElement = document.getElementById('live-uptime');
-        if (uptimeElement) {
-            uptimeElement.innerText = formatUptime(uptimeSeconds);
-        }
-        appendLog();
-    }, 2000);
+        if (!terminalBody) return;
 
-    // Initial setup
-    const uptimeElement = document.getElementById('live-uptime');
-    if (uptimeElement) {
-        uptimeElement.innerText = formatUptime(uptimeSeconds);
-    }
+        // Pick random log
+        const newLog = liveLogs[Math.floor(Math.random() * liveLogs.length)]();
+        
+        // Remove cursor line temporarily, insert log, re-add cursor line
+        const cursorLine = terminalBody.querySelector('.cmd:last-child');
+        if (cursorLine) {
+            cursorLine.insertAdjacentHTML('beforebegin', newLog);
+        }
+
+        // Auto scroll terminal
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+
+        // Keep last 10 log lines
+        if (terminalBody.children.length > 12) {
+            terminalBody.removeChild(terminalBody.children[2]);
+        }
+    }, 2500);
 });
+
+function triggerBoost() {
+    const score = document.getElementById('live-score');
+    if (score) {
+        let current = parseInt(score.innerText) || 100;
+        score.innerText = current + 10;
+    }
+}
+
+function resetMetrics() {
+    const score = document.getElementById('live-score');
+    if (score) score.innerText = "100";
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+}
