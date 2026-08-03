@@ -35,7 +35,7 @@ jobs:
   # ==========================================
   deploy:
     needs: security-and-lint
-    runs-on: self-hosted  # <--- Guna Self-Hosted Runner 'nabil-server' korang!
+    runs-on: self-hosted  # <--- Guna Self-Hosted Runner 'nabil-server'
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Checkout Code Direct On Server
@@ -44,10 +44,11 @@ jobs:
       - name: Deploy Docker Compose
         run: |
           set -e
-          if [ -d "$HOME/project1" ]; then
-            cd "$HOME/project1"
-          elif [ -d "$HOME/devops/project1" ]; then
-            cd "$HOME/devops/project1"
+          # Pergi terus ke path sebenar (Absolute Path)
+          if [ -d "/root/project1" ]; then
+            cd /root/project1
+          elif [ -d "/root/devops/project1" ]; then
+            cd /root/devops/project1
           else
             echo "Folder projek tidak dijumpai!" && exit 1
           fi
