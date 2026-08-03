@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+
+    # 🚀 Batal pipeline lama secara automatik kalau ada commit baru!
+concurrency:
+  # Dia cuma cancel kalau 'PR / Commit yang sama' di-push semula, 
+  # bukannya cancel kerja ahli pasukan lain!
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   # ==========================================
   # JOB 1: Security Scan & Linting (CI)
