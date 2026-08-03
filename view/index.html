@@ -5,90 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nabil DevOps | Homelab & DevOps Lab</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/animation.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div id="particles-js"></div>
+    <!-- Canvas untuk Particle Animation -->
+    <canvas id="canvas"></canvas>
 
-    <div class="container">
-        <header>
-            <div class="logo"><i class="fa-solid fa-code-branch"></i> NABIL.DEVOPS</div>
-            <div class="status-badge"><span class="pulse"></span> SELF-HOSTED RUNNER: ONLINE</div>
+    <div class="app-wrapper">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="logo">
+                <i class="fa-solid fa-code-branch glow-icon"></i> NABIL.<span class="highlight">DEVOPS</span>
+            </div>
+            <div class="status-badge">
+                <span class="pulse-dot"></span> SELF-HOSTED RUNNER: <span class="text-green">ONLINE</span>
+            </div>
         </header>
 
-        <section class="hero">
-            <div class="avatar"><i class="fa-solid fa-user-gear"></i></div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-avatar">
+                <i class="fa-solid fa-user-gear avatar-icon"></i>
+            </div>
             <h1>Nabil's Homelab & DevOps Lab</h1>
-            <p>Automating Infrastructure, Containers & Security Pipelines</p>
-            <div class="tech-stack">
-                <span><i class="fa-brands fa-docker"></i> Docker</span>
-                <span><i class="fa-brands fa-github"></i> Actions</span>
-                <span><i class="fa-solid fa-server"></i> Ubuntu Server</span>
-                <span><i class="fa-solid fa-network-wired"></i> Nginx Proxy</span>
-                <span><i class="fa-solid fa-database"></i> PostgreSQL</span>
+            <p class="hero-subtitle">Automating Infrastructure, Containers & Security Pipelines</p>
+            <div class="tech-stack-row">
+                <div class="tech-card"><i class="fa-brands fa-docker color-docker"></i> Docker</div>
+                <div class="tech-card"><i class="fa-brands fa-github color-github"></i> Actions</div>
+                <div class="tech-card"><i class="fa-solid fa-server color-ubuntu"></i> Ubuntu Server</div>
+                <div class="tech-card"><i class="fa-solid fa-network-wired color-nginx"></i> Nginx Proxy</div>
+                <div class="tech-card"><i class="fa-solid fa-database color-postgres"></i> PostgreSQL</div>
             </div>
         </section>
 
-        <section class="metrics-section">
-            <div class="card score-card">
+        <!-- Dashboard Grid -->
+        <section class="dashboard-grid">
+            <!-- Counter Card -->
+            <div class="dash-card">
                 <div class="card-header">
-                    <span><i class="fa-solid fa-chart-line"></i> Live Pipeline Metrics</span>
-                    <span class="badge-realtime">Realtime</span>
+                    <h3><i class="fa-solid fa-chart-line highlight"></i> Live Pipeline Metrics</h3>
+                    <span class="badge-mini">Realtime</span>
                 </div>
-                <div class="score-body">
-                    <small>DEPLOYMENT SCORE</small>
-                    <div class="score-number" id="live-score">100</div>
+                <div class="counter-display">
+                    <div class="counter-label">DEPLOYMENT SCORE</div>
+                    <div class="counter-value" id="live-score">100</div>
                 </div>
-                <div class="score-actions">
-                    <button class="btn btn-primary" onclick="triggerBoost()"><i class="fa-solid fa-bolt"></i> Boost +10</button>
-                    <button class="btn btn-secondary" onclick="toggleTheme()"><i class="fa-solid fa-palette"></i> Shift Theme</button>
-                    <button class="btn btn-dark" onclick="resetMetrics()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                <div class="btn-group-grid">
+                    <button class="btn btn-boost" onclick="triggerBoost()"><i class="fa-solid fa-bolt"></i> Boost +10</button>
+                    <button class="btn btn-magic" onclick="toggleTheme()"><i class="fa-solid fa-palette"></i> Shift Theme</button>
+                    <button class="btn btn-reset" onclick="resetMetrics()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
                 </div>
             </div>
 
-            <div class="card terminal-card">
-                <div class="terminal-header">
-                    <div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-                    <span class="user-title">nabil@nabil-server:~ (bash)</span>
+            <!-- Terminal Card -->
+            <div class="dash-card terminal-card">
+                <div class="card-header terminal-header">
+                    <div class="terminal-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="terminal-title">nabil@nabil-server:~ (bash)</span>
                 </div>
                 <div class="terminal-body" id="terminal-body">
                     <p class="cmd"><span class="prompt">nabil@nabil-server:~$</span> systemctl status devops-pipeline</p>
-                    <p class="status-line"><span class="dot-active">●</span> pipeline.service - CI/CD Self-Hosted Runner</p>
-                    <p class="log">Loaded: loaded (/etc/systemd/system/runner.service)</p>
-                    <p class="log">Active: <span class="active-text">active (running)</span> since Live Session</p>
+                    <p class="log-success">● pipeline.service - CI/CD Self-Hosted Runner</p>
+                    <p class="log-info">Loaded: loaded (/etc/systemd/system/runner.service)</p>
+                    <p class="log-info">Active: <span class="log-success">active (running)</span> since Live Session</p>
                     <p class="cmd"><span class="prompt">nabil@nabil-server:~$</span> <span class="cursor">_</span></p>
                 </div>
             </div>
         </section>
 
+        <!-- Projects Grid -->
         <section class="projects-section">
-            <h2><i class="fa-solid fa-cubes"></i> Architecture & Projects</h2>
-            <div class="project-grid">
-                <div class="card project-item">
-                    <h3>Project 1: Multi-Container Homelab</h3>
-                    <p>Isolated environment running Node.js Web App, PostgreSQL DB, pgAdmin GUI, & Portainer bridged via Nginx Proxy Manager.</p>
-                    <div class="p-tags">
-                        <span>Docker Compose</span>
-                        <span>Portainer</span>
-                        <span>Nginx NPM</span>
+            <h2 class="section-title"><i class="fa-solid fa-cubes highlight"></i> Architecture & Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon-box"><i class="fa-solid fa-server"></i></div>
+                    <div class="project-content">
+                        <h3>Project 1: Multi-Container Homelab</h3>
+                        <p>Isolated environment running Node.js Web App, PostgreSQL DB, pgAdmin GUI, & Portainer bridged via Nginx Proxy Manager.</p>
+                        <div class="tags">
+                            <span>Docker Compose</span>
+                            <span>Portainer</span>
+                            <span>Nginx NPM</span>
+                        </div>
                     </div>
                 </div>
-                <div class="card project-item">
-                    <h3>DevOps Automated CI/CD</h3>
-                    <p>Git-triggered pipeline running Hadolint syntax check, Trivy vulnerability scanner, & Self-Hosted Runner auto-deploy.</p>
-                    <div class="p-tags">
-                        <span>GitHub Actions</span>
-                        <span>Trivy</span>
-                        <span>Hadolint</span>
+
+                <div class="project-card">
+                    <div class="project-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="project-content">
+                        <h3>DevOps Automated CI/CD</h3>
+                        <p>Git-triggered pipeline running Hadolint syntax check, Trivy vulnerability scanner, & Self-Hosted Runner auto-deploy.</p>
+                        <div class="tags">
+                            <span>GitHub Actions</span>
+                            <span>Trivy</span>
+                            <span>Hadolint</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer>
-            Crafted by <strong>Nabil</strong> | Built with Docker, Nginx & Ubuntu Server
-            <div class="socials"><i class="fa-brands fa-github"></i> <i class="fa-solid fa-envelope"></i></div>
+        <!-- Footer -->
+        <footer class="footer">
+            <div>Crafted by <strong>Nabil</strong> | Built with Docker, Nginx & Ubuntu Server</div>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            </div>
         </footer>
     </div>
 
