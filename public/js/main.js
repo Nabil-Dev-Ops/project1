@@ -1,35 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("🚀 DevOps Dashboard JS initialized!");
     const terminalBody = document.getElementById('terminal-body');
 
+    // Senarai log real-time
     const liveLogs = [
-        () => `<p class="log">[SYS] CPU Usage: ${(Math.random() * 3 + 1.1).toFixed(1)}% | Memory: 1.15GB/4.00GB</p>`,
-        () => `<p class="log"><span class="active-text">[RUNNER]</span> Polling GitHub Actions pipeline jobs...</p>`,
-        () => `<p class="log">[DOCKER] Container project1-web state: HEALTHY</p>`,
-        () => `<p class="log">[SECURITY] Trivy vulnerability check: 0 CRITICAL</p>`
+        () => `<p class="log-info">[SYS] CPU Usage: ${(Math.random() * 3 + 1.1).toFixed(1)}% | RAM: 1.15GB / 4.00GB</p>`,
+        () => `<p class="log-info"><span class="log-success">[RUNNER]</span> Polling GitHub Actions pipeline jobs... ACK</p>`,
+        () => `<p class="log-info">[DOCKER] Container project1-web health: OK</p>`,
+        () => `<p class="log-info">[SECURITY] Trivy vulnerability scan: 0 CRITICAL</p>`,
+        () => `<p class="log-info">[CLOUDFLARE] Ingress active on project1.nabil.homes</p>`
     ];
 
+    // Auto-stream log ke terminal setiap 2.5 saat
     setInterval(() => {
         if (!terminalBody) return;
 
-        // Pick random log
+        // Pilih log secara rawak
         const newLog = liveLogs[Math.floor(Math.random() * liveLogs.length)]();
         
-        // Remove cursor line temporarily, insert log, re-add cursor line
-        const cursorLine = terminalBody.querySelector('.cmd:last-child');
-        if (cursorLine) {
-            cursorLine.insertAdjacentHTML('beforebegin', newLog);
+        // Cari prompt terminal terakhir (nabil@nabil-server:~$)
+        const lastCmd = terminalBody.querySelector('.cmd:last-child');
+        if (lastCmd) {
+            lastCmd.insertAdjacentHTML('beforebegin', newLog);
+        } else {
+            terminalBody.innerHTML += newLog;
         }
 
-        // Auto scroll terminal
+        // Auto scroll terminal ke bawah
         terminalBody.scrollTop = terminalBody.scrollHeight;
 
-        // Keep last 10 log lines
+        // Hadkan kepada 12 baris maksimum
         if (terminalBody.children.length > 12) {
-            terminalBody.removeChild(terminalBody.children[2]);
+            terminalBody.removeChild(terminalBody.children[1]);
         }
     }, 2500);
 });
 
+// Function Boost
 function triggerBoost() {
     const score = document.getElementById('live-score');
     if (score) {
@@ -38,11 +45,13 @@ function triggerBoost() {
     }
 }
 
+// Function Reset
 function resetMetrics() {
     const score = document.getElementById('live-score');
     if (score) score.innerText = "100";
 }
 
+// Function Shift Theme
 function toggleTheme() {
     document.body.classList.toggle('light-theme');
 }
