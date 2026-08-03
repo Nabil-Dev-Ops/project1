@@ -1,41 +1,51 @@
-let count = 100;
+document.addEventListener("DOMContentLoaded", () => {
+    let uptimeSeconds = 31200;
 
-function addScore(event) {
-  count += 10;
-  document.getElementById("counter").innerText = count;
-  createSparkles(event.clientX, event.clientY);
-  appendTerminalLog(`Score boosted: +10 (Total: ${count})`);
-}
+    function formatUptime(secs) {
+        const h = Math.floor(secs / 3600);
+        const m = Math.floor((secs % 3600) / 60);
+        const s = secs % 60;
+        return `${h}h ${m}m ${s}s`;
+    }
 
-function resetScore(event) {
-  count = 0;
-  document.getElementById("counter").innerText = count;
-  appendTerminalLog(`Score reset to 0`);
-}
+    // Live Streamer Log Terminal untuk Project 1 (CT100)
+    const terminal = document.getElementById('terminal-logs');
+    const simulatedLogs = [
+        () => `<div class="log-line">[CT100] CPU Usage: ${(Math.random() * 4 + 1.1).toFixed(1)}% | RAM: 1.05GB / 4.00GB</div>`,
+        () => `<div class="log-line log-green">[RUNNER] CT100 runner polling GitHub Actions jobs...</div>`,
+        () => `<div class="log-line">[DOCKER] project1-web stack status: RUNNING (Port 80)</div>`,
+        () => `<div class="log-line log-yellow">[SECURITY] Hadolint & Trivy scan result: PASSED</div>`,
+        () => `<div class="log-line">[CLOUDFLARE] Ingress route active: project1.nabil.homes</div>`
+    ];
 
-function changeTheme(event) {
-  const colors = [
-    ['#00f2fe', '#4facfe'],
-    ['#7928ca', '#ff007f'],
-    ['#00dfa2', '#00b894'],
-    ['#ff9a9e', '#fecfef']
-  ];
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  document.documentElement.style.setProperty('--accent-cyan', randomColor[0]);
-  appendTerminalLog(`Theme accent shifted to ${randomColor[0]}`);
-}
+    function appendLog() {
+        if (!terminal) return;
+        
+        const randomLog = simulatedLogs[Math.floor(Math.random() * simulatedLogs.length)]();
+        terminal.innerHTML += randomLog;
+        
+        // Auto scroll
+        terminal.scrollTop = terminal.scrollHeight;
 
-function appendTerminalLog(message) {
-  const terminal = document.getElementById("terminal-body");
-  if (!terminal) return;
-  
-  const p = document.createElement("p");
-  p.innerHTML = `<span class="prompt">nabil@nabil-server:~$</span> ${message}`;
-  
-  const cursor = terminal.querySelector(".typing-cursor");
-  if (cursor && cursor.parentElement) {
-    terminal.insertBefore(p, cursor.parentElement);
-  } else {
-    terminal.appendChild(p);
-  }
-}
+        // Hadkan max 15 baris
+        if (terminal.children.length > 15) {
+            terminal.removeChild(terminal.children[0]);
+        }
+    }
+
+    // Update automatik setiap 2 saat
+    setInterval(() => {
+        uptimeSeconds++;
+        const uptimeElement = document.getElementById('live-uptime');
+        if (uptimeElement) {
+            uptimeElement.innerText = formatUptime(uptimeSeconds);
+        }
+        appendLog();
+    }, 2000);
+
+    // Initial setup
+    const uptimeElement = document.getElementById('live-uptime');
+    if (uptimeElement) {
+        uptimeElement.innerText = formatUptime(uptimeSeconds);
+    }
+});

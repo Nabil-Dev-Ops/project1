@@ -1,143 +1,114 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nabil | DevOps & Homelab Engineer Portfolio</title>
-  
-  <!-- Font Awesome & Google Fonts -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/animation.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabil DevOps | Project 1 Homelab Command Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/animation.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- Canvas Interactive Particles Background -->
-  <canvas id="canvas"></canvas>
-
-  <div class="app-wrapper">
-    
-    <!-- Top Navigation / Status Bar -->
-    <header class="navbar">
-      <div class="logo">
-        <i class="fa-solid fa-terminal glow-icon"></i>
-        <span>NABIL<span class="highlight">.DEVOPS</span></span>
-      </div>
-      <div class="status-badge">
-        <span class="pulse-dot"></span>
-        <span>SELF-HOSTED RUNNER: <strong class="text-green">ONLINE</strong></span>
-      </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-avatar">
-        <div class="avatar-ring"></div>
-        <i class="fa-solid fa-user-gear avatar-icon"></i>
-      </div>
-      <h1 class="glitch-text">Nabil's Homelab & DevOps Lab</h1>
-      <p class="hero-subtitle">Automating Infrastructure, Containers & Security Pipelines</p>
-      
-      <!-- Tech Stack Badges -->
-      <div class="tech-stack-row">
-        <div class="tech-card"><i class="fa-brands fa-docker color-docker"></i> Docker</div>
-        <div class="tech-card"><i class="fa-brands fa-github color-github"></i> Actions</div>
-        <div class="tech-card"><i class="fa-brands fa-ubuntu color-ubuntu"></i> Ubuntu 26.04</div>
-        <div class="tech-card"><i class="fa-solid fa-network-wired color-nginx"></i> Nginx Proxy</div>
-        <div class="tech-card"><i class="fa-solid fa-database color-postgres"></i> PostgreSQL</div>
-      </div>
-    </section>
-
-    <!-- Interactive Interactive Terminal & Stats Dashboard -->
-    <section class="dashboard-grid">
-      
-      <!-- Live Metrics Card -->
-      <div class="dash-card">
-        <div class="card-header">
-          <h3><i class="fa-solid fa-chart-line"></i> Live Pipeline Metrics</h3>
-          <span class="badge-mini">Realtime</span>
-        </div>
-        <div class="counter-display">
-          <span class="counter-label">DEPLOYMENT SCORE</span>
-          <div class="counter-value" id="counter">100</div>
-        </div>
-        <div class="btn-group-grid">
-          <button class="btn btn-boost" onclick="addScore(event)"><i class="fa-solid fa-bolt"></i> Boost +10</button>
-          <button class="btn btn-magic" onclick="changeTheme(event)"><i class="fa-solid fa-palette"></i> Shift Theme</button>
-          <button class="btn btn-reset" onclick="resetScore(event)"><i class="fa-solid fa-rotate-left"></i> Reset</button>
-        </div>
-      </div>
-
-      <!-- Live Interactive Terminal -->
-      <div class="dash-card terminal-card">
-        <div class="card-header terminal-header">
-          <div class="terminal-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <span class="terminal-title">nabil@nabil-server:~ (bash)</span>
-        </div>
-        <div class="terminal-body" id="terminal-body">
-          <p><span class="prompt">nabil@nabil-server:~$</span> systemctl status devops-pipeline</p>
-          <p class="log-success">● pipeline.service - CI/CD Self-Hosted Runner</p>
-          <p class="log-info">   Loaded: loaded (/etc/systemd/system/runner.service)</p>
-          <p class="log-info">   Active: active (running) since Live Session</p>
-          <p><span class="prompt">nabil@nabil-server:~$</span> <span class="typing-cursor">_</span></p>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- Projects & Architecture Showcase -->
-    <section class="projects-section">
-      <h2 class="section-title"><i class="fa-solid fa-cubes"></i> Architecture & Projects</h2>
-      
-      <div class="projects-grid">
-        
-        <div class="project-card">
-          <div class="project-icon-box"><i class="fa-solid fa-server"></i></div>
-          <div class="project-content">
-            <h3>Project 1: Multi-Container Homelab</h3>
-            <p>Isolated environment running Node.js Web App, PostgreSQL DB, pgAdmin GUI, & Portainer bridged via Nginx Proxy Manager.</p>
-            <div class="tags">
-              <span>Docker Compose</span>
-              <span>Portainer</span>
-              <span>Nginx NPM</span>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <i class="fa-solid fa-terminal"></i> NABIL.DEVOPS
             </div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
-          <div class="project-content">
-            <h3>DevOps Automated CI/CD</h3>
-            <p>Git-triggered pipeline running Hadolint syntax check, Trivy vulnerability scanner, & Self-Hosted Runner auto-deploy.</p>
-            <div class="tags">
-              <span>GitHub Actions</span>
-              <span>Trivy</span>
-              <span>Hadolint</span>
+            <div class="runner-badge">
+                <div class="pulse-dot"></div> SELF-HOSTED RUNNER: ONLINE
             </div>
-          </div>
         </div>
 
-      </div>
-    </section>
+        <!-- Hero -->
+        <div class="hero">
+            <h1>Nabil's Homelab & DevOps Command Center</h1>
+            <p>Automating Infrastructure, Microservices, Security Pipelines & Real-time Telemetry</p>
+            <div class="tags">
+                <div class="tag"><i class="fa-brands fa-docker"></i> Docker Compose</div>
+                <div class="tag"><i class="fa-brands fa-github"></i> GitHub Actions</div>
+                <div class="tag"><i class="fa-solid fa-server"></i> Proxmox LXC</div>
+                <div class="tag"><i class="fa-solid fa-shield-halved"></i> Cloudflare Zero Trust</div>
+            </div>
+        </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <p>Crafted by <strong>Nabil</strong> | Built with Docker, Nginx & Ubuntu Server</p>
-      <div class="social-links">
-        <a href="https://github.com/Nabil-Dev-Ops" target="_blank"><i class="fa-brands fa-github"></i></a>
-        <a href="mailto:nmuhd1444@gmail.com"><i class="fa-solid fa-envelope"></i></a>
-      </div>
-    </footer>
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Card: Live Telemetry -->
+            <div class="card">
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">LIVE INFRASTRUCTURE HEALTH</div>
+                <div class="metric-score">
+                    <div class="score-num" id="health-score">100</div>
+                    <div style="font-size: 0.75rem; color: var(--accent-green); margin-top: 4px;">● ALL SYSTEMS OPERATIONAL</div>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="stat-label">Project 1 Cluster Status</span>
+                    <span class="stat-value" id="active-containers">CT100 Active 🟢</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Host Node Uptime</span>
+                    <span class="stat-value" id="live-uptime">Loading...</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">CI/CD Security Scan</span>
+                    <span class="stat-value" style="color: var(--accent-green);">TRIVY PASSED 🛡️</span>
+                </div>
+            </div>
 
-  </div>
+            <!-- Right Card: Live Terminal Stream -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="window-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="terminal-title">nabil@ct100-server:~ (bash)</div>
+                </div>
+                <div class="terminal-body" id="terminal-logs">
+                    <div class="log-line">[SYS] Initializing Project 1 telemetry stream...</div>
+                    <div class="log-line log-green">[OK] Connected to CT100 Self-Hosted Runner.</div>
+                </div>
+            </div>
+        </div>
 
-  <script src="/js/particles.js"></script>
-  <script src="/js/main.js"></script>
+        <!-- Architecture & Projects -->
+        <div class="section-title">
+            <i class="fa-solid fa-diagram-project"></i> Architecture & Live Projects
+        </div>
+
+        <div class="project-cards">
+            <!-- Project 1 Card -->
+            <div class="project-card">
+                <div class="project-icon"><i class="fa-solid fa-server"></i></div>
+                <h3 style="margin: 0 0 0.5rem 0;">Project 1: Multi-Container Homelab</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 1rem 0;">
+                    Isolated CT100 environment running Node.js Web App, Nginx Reverse Proxy, and automated CI/CD pipeline.
+                </p>
+                <div class="badge-git">
+                    <!-- Badge rasmi GitHub Actions Project 1 -->
+                    <img src="https://img.shields.io/badge/Project_1_CI%2FCD-Passing-22c55e?style=flat-square&logo=githubactions&logoColor=white" alt="Project 1 Pipeline Status">
+                </div>
+            </div>
+
+            <!-- Link ke Project 2 -->
+            <div class="project-card">
+                <div class="project-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3 style="margin: 0 0 0.5rem 0;">Project 2: Live Metrics API</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 1rem 0;">
+                    Microservices application exposing live Prometheus OpenMetrics telemetry on CT101 node.
+                </p>
+                <a href="https://project2.nabil.homes" target="_blank" style="color: var(--accent-blue); font-size: 0.85rem; text-decoration: none; font-weight: 600;">
+                    Launch Project 2 <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- External JavaScript File Reference -->
+    <script src="/js/particles.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
